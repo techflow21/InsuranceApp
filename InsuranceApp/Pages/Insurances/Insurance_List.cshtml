@@ -1,0 +1,35 @@
+﻿@page
+@model InsuranceApp.Pages.Insurances.Insurance_ListModel
+
+
+<h2>Motor Policy Insurance Listing</h2>
+<form method="post">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Provider</th>
+                <th>Policy Number</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var insurance in Model.Insurances)
+            {
+                <tr>
+                    <td>@insurance.Provider</td>
+                    <td>@insurance.PolicyNumber</td>
+                    <td>@insurance.StartDate.ToShortDateString()</td>
+                    <td>@insurance.EndDate.ToShortDateString()</td>
+                    @* <td>@insurance.Motors.Count</td> *@
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@insurance.Id" class="btn btn-primary">Edit</a>
+                        <a asp-page="./Delete" asp-route-id="@insurance.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+

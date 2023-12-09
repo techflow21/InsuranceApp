@@ -1,0 +1,126 @@
+﻿@page
+@model InsuranceApp.Pages.Insurances.Insurance_EditModel
+
+<h2>Motor Policy Insurance Form</h2>
+
+<form method="post">
+    <input hidden asp-for="Insurance.Id" />
+
+    <div class="form-group col-span-3">
+        <label asp-for="Insurance.Provider">Provider:</label>
+        <input asp-for="Insurance.Provider" class="form-control" />
+    </div>
+    <div class="form-group col-span-3">
+        <label asp-for="Insurance.PolicyNumber">Policy Number:</label>
+        <input asp-for="Insurance.PolicyNumber" class="form-control" />
+    </div>
+    <div class="form-group col-span-3">
+        <label asp-for="Insurance.StartDate">Start Date:</label>
+        <input asp-for="Insurance.StartDate" type="date" class="form-control" />
+    </div>
+    <div class="form-group col-span-3">
+        <label asp-for="Insurance.EndDate">End Date:</label>
+        <input asp-for="Insurance.EndDate" type="date" class="form-control" />
+    </div>
+    <br />
+
+    <h3>List of Added Motor Details</h3>
+
+    <table id="motorTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Reg.Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <br />
+    <h2>New Motor Details Form</h2>
+    <div class="form-group col-span-3">
+        <label for="motorMake">Make:</label>
+        <input type="text" class="form-control" id="motorMake" />
+    </div>
+    <div class="form-group col-span-3">
+        <label for="motorModel">Model:</label>
+        <input type="text" class="form-control" id="motorModel" />
+    </div>
+    <div class="form-group col-span-3">
+        <label for="motorYear">Year:</label>
+        <input type="number" class="form-control" id="motorYear" />
+    </div>
+    <div class="form-group col-span-3">
+        <label for="motorRegNumber">Reg.Number:</label>
+        <input type="text" class="form-control" id="motorRegNumber" />
+    </div>
+
+    <br/>
+    <button type="button" class="btn btn-primary" id="addMotorBtn">Add Motor</button>
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            var motorTable = $("#motorTable tbody");
+
+            $("#addMotorBtn").click(function () {
+                var make = $("#motorMake").val();
+                var model = $("#motorModel").val();
+                var year = $("#motorYear").val();
+                var regNumber = $("#motorRegNumber").val();
+
+                if (make && model && year && regNumber) {
+                    motorTable.append(`
+                                <tr>
+                                    <td>${make}</td>
+                                    <td>${model}</td>
+                                    <td>${year}</td>
+                                    <td>${regNumber}</td>
+                                    
+                                    <td><button class="btn btn-danger btn-sm removeMotorBtn">Remove</button></td>
+                                </tr>`);
+
+                    //Clear input fields
+                    $("#motorMake").val("");
+                    $("#motorModel").val("");
+                    $("#motorYear").val("");
+                    $("#motorRegNumber").val("");
+                } else {
+                    alert("Please enter all required information.");
+                }
+            });
+
+            $(motorTable).on("click", ".removeMotorBtn", function () {
+                $(this).closest("tr").remove();
+
+                
+            });
+        });
+    </script>
+
+     @*
+        document.getElementById('addMotorBtn').addEventListener('click', function () {
+            // Call the server-side method using AJAX
+            fetch('@Url.Page("/Insurances/Insurance_Edit", new { pageHandler = "saveData" })', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(result => {
+            // Handle the result as needed
+            console.log(result);
+        });
+    });
+   *@
+
+
+}
